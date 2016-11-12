@@ -1,0 +1,101 @@
+copy image
+
+InputStream is = null;
+            OutputStream os = null;
+            try {
+                is = new FileInputStream(new File(path));                
+                os = new FileOutputStream(new File("image.jpg"));
+                byte[] buffer = new byte[10240000];
+                int length;                
+                while ((length = is.read(buffer)) > 0) {
+                    os.write(buffer, 0, length);
+                }
+
+            } catch (Exception ex) {
+            } finally {
+                is.close();
+                os.close();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        _____________________
+
+
+        testes 
+
+        public static BufferedImage decodeToImage(String imageString) {
+        BufferedImage image = null;
+        byte[] imageByte;
+        try {
+            BASE64Decoder decoder = new BASE64Decoder();
+            imageByte = decoder.decodeBuffer(imageString);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+            image = ImageIO.read(bis);
+            bis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    public static String encodeToString(BufferedImage image, String type) {
+        String imageString = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, type, bos);
+            byte[] imageBytes = bos.toByteArray();
+
+            BASE64Encoder encoder = new BASE64Encoder();
+            imageString = encoder.encode(imageBytes);
+
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageString;
+    }
+
+    public String ReadImage(String path) {
+        String retorna = "";
+        try {
+            URL url = new URL(path);
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String str;
+
+            while ((str = in.readLine()) != null) {
+                //System.out.println(str);
+                retorna += str;
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return retorna;
+    }
+
+    public byte[] ReadImageByte(String path) {
+        //byte[] retorna2 = new byte[10240000];
+        String retorna = "";
+
+        try {
+            URL url = new URL(path);
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String str;
+
+            
+
+            while ((str = in.readLine()) != null) {
+                //System.out.println(str);
+                retorna += str;
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return retorna.getBytes();
+    }
