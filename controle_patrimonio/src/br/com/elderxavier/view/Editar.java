@@ -894,6 +894,7 @@ public final class Editar extends javax.swing.JFrame {
         registro = 0;
         setEntities(listaPatrimonio.get(registro));
         txtRegistro.setText(String.valueOf(registro + 1));
+        jbLimparPesquisa.setVisible(false);
     }
 
 }
