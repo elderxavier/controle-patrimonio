@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/br/com/elderxavier/view/Foto.java</file>
+            <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/br/com/elderxavier/conexao/Conexao.java</file>
             <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/br/com/elderxavier/controller/DaoPatrimonio.java</file>
             <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/br/com/elderxavier/view/Pesquisar.java</file>
             <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/br/com/elderxavier/view/Editar.java</file>
+            <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/br/com/elderxavier/model/ControlePatrimonio.java</file>
             <file>file:/home/elder/shared/OneDrive/faculdade/faculdade-2-2016/laboratorio/atividade2/controle_patrimonio/src/testes/TesteMain.java</file>
         </group>
     </open-files>

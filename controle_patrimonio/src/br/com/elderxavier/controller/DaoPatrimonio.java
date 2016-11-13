@@ -20,21 +20,22 @@ import javax.swing.JOptionPane;
  */
 public class DaoPatrimonio {
 
-    Connection conexao = new Conexao().getConexao();
-    DateFormat dateformate = new SimpleDateFormat("dd/MM/yyyy");
+    static Connection conexao = Conexao.getConexao();
+    
+    static DateFormat dateformate = new SimpleDateFormat("dd/MM/yyyy");
 
     public void DaoPatrimonio() {
 
     }
 
-    public long Inserir(ControlePatrimonio patrimonio) {
+    public static long Inserir(ControlePatrimonio patrimonio) {
         long ret = 0;
         String sql = "INSERT INTO patrimonio ";
         sql += "(codigo, nome, descricao, composicao, localizacao, valor, data, estado, foto, criado) ";
         sql += "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            Date date = this.dateformate.parse(patrimonio.getData());
-            PreparedStatement stmt = this.conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            Date date = dateformate.parse(patrimonio.getData());
+            PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, patrimonio.getCodigo());
             stmt.setString(2, patrimonio.getNome());
             stmt.setString(3, patrimonio.getDescricao());
@@ -62,7 +63,7 @@ public class DaoPatrimonio {
         }
     }
 
-    public long Atualizar(ControlePatrimonio patrimonio, String id) {
+    public static long Atualizar(ControlePatrimonio patrimonio, String id) {
         long ret = 0;
         String sql = "UPDATE patrimonio SET ";
         sql += "codigo = ?,";
@@ -77,8 +78,8 @@ public class DaoPatrimonio {
         sql += "atualizado =?";
         sql += " WHERE id = ?";
         try {
-            Date date = this.dateformate.parse(patrimonio.getData());
-            PreparedStatement stmt = this.conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            Date date = dateformate.parse(patrimonio.getData());
+            PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, patrimonio.getCodigo());
             stmt.setString(2, patrimonio.getNome());
             stmt.setString(3, patrimonio.getDescricao());
@@ -101,11 +102,11 @@ public class DaoPatrimonio {
         }
     }
 
-    public long Excluir( String id) {
+    public static long Excluir( String id) {
         long ret = 0;
         String sql = "DELETE FROM patrimonio WHERE id = ?";
         try {
-            PreparedStatement stmt = this.conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, Integer.parseInt(id));
             int affectedRows = stmt.executeUpdate();
             ResultSet generatedKeys;
@@ -124,11 +125,11 @@ public class DaoPatrimonio {
         }
     }
 
-    public List<ControlePatrimonio> getListar() {
+    public static List<ControlePatrimonio> getListar() {
         List<ControlePatrimonio> minhalista = new ArrayList<ControlePatrimonio>();
         String sql = "SELECT * FROM patrimonio";
         try {
-            PreparedStatement stmt = this.conexao.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 ControlePatrimonio patrimonio = new ControlePatrimonio();
@@ -160,11 +161,11 @@ public class DaoPatrimonio {
 
     }    
     
-    public List<ControlePatrimonio> getPesquisar( String search) {
+    public static List<ControlePatrimonio> getPesquisar( String search) {
         List<ControlePatrimonio> minhalista = new ArrayList<ControlePatrimonio>();
         String sql = "SELECT * FROM patrimonio  WHERE " + search;        
         try {
-            PreparedStatement stmt = this.conexao.prepareStatement(sql);
+            PreparedStatement stmt = conexao.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 ControlePatrimonio patrimonio = new ControlePatrimonio();
@@ -190,6 +191,7 @@ public class DaoPatrimonio {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
+            System.err.println("sql_string: " + sql);
         } finally {
             return minhalista;
         }

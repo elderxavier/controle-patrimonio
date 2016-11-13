@@ -10,6 +10,7 @@ import br.com.elderxavier.controller.DaoPatrimonio;
 import br.com.elderxavier.helpers.Helper;
 import br.com.elderxavier.model.ControlePatrimonio;
 import br.com.elderxavier.view.Editar;
+import java.sql.SQLException;
 
 import java.sql.Timestamp;
 
@@ -33,6 +34,13 @@ public class Main {
      */
     public static void main(String[] args) {
         Editar.main(args);
+        if(Editar.EXIT_ON_CLOSE == 0){
+            try {
+                Conexao.conexao.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
         /*Editar editar = new Editar();
         editar.setContentPane(new MyPanel());
         editar.setVisible(true); */

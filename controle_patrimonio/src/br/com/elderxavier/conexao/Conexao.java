@@ -10,9 +10,9 @@ import java.sql.DriverManager;
 
 public class Conexao {
 
-    Connection conexao;
+    public static Connection conexao;
 
-    public Connection getConexao() {
+    public static Connection getConexao() {
         /*String user = "root";
         String password = "";
         String local = "localhost";
@@ -26,11 +26,11 @@ public class Conexao {
         
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            this.conexao = DriverManager.getConnection("jdbc:mysql://" + local + "/" + database + "?" + "user=" + user + "&password=" + password);            
+            conexao = DriverManager.getConnection("jdbc:mysql://" + local + "/" + database + "?" + "user=" + user + "&password=" + password);            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return this.conexao;
+        return conexao;
     }
 
     public void TestaConexao() {

@@ -112,6 +112,11 @@ public class Pesquisar extends javax.swing.JFrame {
         sbEstado.setText("ESTADO DE USO");
 
         sbTodos.setText("SELECIONAR TODOS");
+        sbTodos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                sbTodosItemStateChanged(evt);
+            }
+        });
 
         sbData.setText("DATA");
         sbData.addItemListener(new java.awt.event.ItemListener() {
@@ -293,6 +298,29 @@ public class Pesquisar extends javax.swing.JFrame {
         this.SearchPatrimonio();
     }//GEN-LAST:event_jbOkActionPerformed
 
+    private void sbTodosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_sbTodosItemStateChanged
+        if (sbTodos.isSelected()) {
+            sbCodigo.setSelected(true);
+            sbComposicao.setSelected(true);
+            sbData.setSelected(true);
+            sbDescricao.setSelected(true);
+            sbEstado.setSelected(true);
+            sbLocalizacao.setSelected(true);
+            sbNome.setSelected(true);
+            sbValor.setSelected(true);
+        } else {
+            sbCodigo.setSelected(false);
+            sbComposicao.setSelected(false);
+            sbData.setSelected(false);
+            sbDescricao.setSelected(false);
+            sbEstado.setSelected(false);
+            sbLocalizacao.setSelected(false);
+            sbNome.setSelected(false);
+            sbValor.setSelected(false);
+        }
+
+    }//GEN-LAST:event_sbTodosItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -328,7 +356,7 @@ public class Pesquisar extends javax.swing.JFrame {
                     Dimension dDesktop = new Dimension(javax.swing.JFrame.MAXIMIZED_BOTH, javax.swing.JFrame.MAXIMIZED_HORIZ);
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                     jfpesquisar.setLocation((int) (screenSize.getWidth() - jfpesquisar.getHeight()) / 3, 100);
-                    
+
                     Image icon = ImageIO.read(getClass().getResource("/br/com/elderxavier/images/icon.png"));
                     jfpesquisar.setIconImage(icon);
                 } catch (IOException ex) {
@@ -413,7 +441,7 @@ public class Pesquisar extends javax.swing.JFrame {
             String aux = "";
             int limit = serchItens.length - 2;
             for (int x = 0; x <= limit; x++) {
-                if (x == 0 || x == limit) {
+                if (x == 0 ) {
                     aux = "";
                 } else {
                     aux = " OR ";
@@ -424,10 +452,10 @@ public class Pesquisar extends javax.swing.JFrame {
                 toSearch = this.serchItens[7];
             } else {
                 toSearch = serchItens[7] + " AND (" + toSearch + ")";
-            }            
-            DaoPatrimonio dao = new DaoPatrimonio();
-            if (dao.getPesquisar(toSearch).size() > 0) {
-                Editar.listaPatrimonio = dao.getPesquisar(toSearch);
+            }
+            //DaoPatrimonio dao = new DaoPatrimonio();
+            if (DaoPatrimonio.getPesquisar(toSearch).size() > 0) {
+                Editar.listaPatrimonio = DaoPatrimonio.getPesquisar(toSearch);
                 Editar.jbLimparPesquisa.setVisible(true);
                 Editar.setEntities(Editar.listaPatrimonio.get(0));
                 Editar.registro = 0;
