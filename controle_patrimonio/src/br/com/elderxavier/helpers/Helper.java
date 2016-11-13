@@ -19,5 +19,12 @@ public class Helper {
         }
         return true;
     }
+    public static String getDecimalString(double d ){        
+        String ret = String.valueOf(d);
+        String[] parts = ret.split("[.]");        
+        parts[1] = parts[1].length() < 2 ? parts[1] + "0" : parts[1];        
+        ret = parts[0] + "," + parts[1];        
+        return ret;
+    }
 
 }

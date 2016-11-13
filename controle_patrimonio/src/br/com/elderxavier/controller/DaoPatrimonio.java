@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class DaoPatrimonio {
 
     Connection conexao = new Conexao().getConexao();
-    DateFormat dateformate = new SimpleDateFormat("dd/mm/yyyy");
+    DateFormat dateformate = new SimpleDateFormat("dd/MM/yyyy");
 
     public void DaoPatrimonio() {
 
@@ -103,10 +103,10 @@ public class DaoPatrimonio {
 
     public long Excluir( String id) {
         long ret = 0;
-        String sql = "DELETE patrimonio WHERE id = ?";
+        String sql = "DELETE FROM patrimonio WHERE id = ?";
         try {
             PreparedStatement stmt = this.conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, id);
+            stmt.setInt(1, Integer.parseInt(id));
             int affectedRows = stmt.executeUpdate();
             ResultSet generatedKeys;
             generatedKeys = stmt.getGeneratedKeys();
@@ -139,7 +139,11 @@ public class DaoPatrimonio {
                 patrimonio.setComposicao(rs.getString("composicao"));
                 patrimonio.setLocalizacao(rs.getString("localizacao"));
                 patrimonio.setValor(rs.getDouble("valor"));
-                patrimonio.setData(rs.getString("data"));
+                
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat dfn = new SimpleDateFormat("dd/MM/yyyy");
+                
+                patrimonio.setData( dfn.format( df.parse( rs.getString("data") ) ) );                
                 patrimonio.setEstado(rs.getString("estado"));
                 patrimonio.setFoto(rs.getString("foto"));
 
@@ -154,23 +158,43 @@ public class DaoPatrimonio {
             return minhalista;
         }
 
-    }
-
-    public int LastId() {
-        int ret = 0;
-        String sql = "SELECT * FROM patrimonio ORDER BY  id DESC LIMIT 0, 1";
+    }    
+    
+    public List<ControlePatrimonio> getPesquisar( String search) {
+        List<ControlePatrimonio> minhalista = new ArrayList<ControlePatrimonio>();
+        String sql = "SELECT * FROM patrimonio  WHERE " + search;        
         try {
             PreparedStatement stmt = this.conexao.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 ControlePatrimonio patrimonio = new ControlePatrimonio();
-                ret = rs.getInt("id");
+                patrimonio.setId(rs.getInt("id"));
+                patrimonio.setCodigo(rs.getString("codigo"));
+                patrimonio.setNome(rs.getString("nome"));
+                patrimonio.setDescricao(rs.getString("descricao"));
+                patrimonio.setComposicao(rs.getString("composicao"));
+                patrimonio.setLocalizacao(rs.getString("localizacao"));
+                patrimonio.setValor(rs.getDouble("valor"));
+                
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat dfn = new SimpleDateFormat("dd/MM/yyyy");
+                
+                patrimonio.setData( dfn.format( df.parse( rs.getString("data") ) ) );                
+                patrimonio.setEstado(rs.getString("estado"));
+                patrimonio.setFoto(rs.getString("foto"));
+
+                minhalista.add(patrimonio);
             }
+            rs.close();
+            stmt.close();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
+        } finally {
+            return minhalista;
         }
-        return ret;
-    }
+
+    }    
+    
 
 }

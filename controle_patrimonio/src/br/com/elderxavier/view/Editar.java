@@ -12,6 +12,7 @@ import br.com.elderxavier.resource.topPanel;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,15 +26,18 @@ import javax.swing.text.MaskFormatter;
  *
  * @author elder
  */
-public class Editar extends javax.swing.JFrame {
+public final class Editar extends javax.swing.JFrame {
 
     public static String foto;
-    
-    public List<ControlePatrimonio> listaPatrimonio;
+    public String noFoto = getClass().getResource("/br/com/elderxavier/images/no-image.png").toString().replace("file:", "");
+    public static List<ControlePatrimonio> listaPatrimonio;
+
+    public static int registro;
+    public static int totalRegistro;
 
     public Editar() {
         JPanel panel = new topPanel();
-        this.setContentPane(panel);
+        setContentPane(panel);
         initComponents();
         initForm();
     }
@@ -72,7 +76,7 @@ public class Editar extends javax.swing.JFrame {
         txtCompra = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jbEditar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbPesquisar = new javax.swing.JButton();
         jbDuplicar = new javax.swing.JButton();
         jbSalvar = new javax.swing.JButton();
         jbNovo = new javax.swing.JButton();
@@ -82,13 +86,15 @@ public class Editar extends javax.swing.JFrame {
         jbGofirst = new javax.swing.JButton();
         jbGoback = new javax.swing.JButton();
         jbGonext = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
+        jbGolast = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         txtRegistro = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jlTotalReg = new javax.swing.JLabel();
+        jbLimparPesquisa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Controle de Patrimonio");
         setBackground(new java.awt.Color(204, 204, 204));
         setLocation(new java.awt.Point(0, 0));
         setLocationByPlatform(true);
@@ -272,9 +278,19 @@ public class Editar extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/search.png"))); // NOI18N
+        jbPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/search.png"))); // NOI18N
+        jbPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbPesquisarActionPerformed(evt);
+            }
+        });
 
         jbDuplicar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/duplicate.png"))); // NOI18N
+        jbDuplicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDuplicarActionPerformed(evt);
+            }
+        });
 
         jbSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/Save-as-icon.png"))); // NOI18N
         jbSalvar.setAlignmentY(0.0F);
@@ -295,8 +311,18 @@ public class Editar extends javax.swing.JFrame {
         });
 
         jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/delete.png"))); // NOI18N
+        jbExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbExcluirActionPerformed(evt);
+            }
+        });
 
         jbSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/logout.png"))); // NOI18N
+        jbSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSairActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(38, 37, 37));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -314,14 +340,29 @@ public class Editar extends javax.swing.JFrame {
         jbGoback.setBackground(new java.awt.Color(0, 0, 0));
         jbGoback.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/go-back.png"))); // NOI18N
         jbGoback.setBorder(null);
+        jbGoback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGobackActionPerformed(evt);
+            }
+        });
 
         jbGonext.setBackground(new java.awt.Color(0, 0, 0));
         jbGonext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/go-next.png"))); // NOI18N
         jbGonext.setBorder(null);
+        jbGonext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGonextActionPerformed(evt);
+            }
+        });
 
-        jButton11.setBackground(new java.awt.Color(0, 0, 0));
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/go-last.png"))); // NOI18N
-        jButton11.setBorder(null);
+        jbGolast.setBackground(new java.awt.Color(0, 0, 0));
+        jbGolast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/go-last.png"))); // NOI18N
+        jbGolast.setBorder(null);
+        jbGolast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGolastActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("Registro");
 
@@ -329,19 +370,30 @@ public class Editar extends javax.swing.JFrame {
 
         jlTotalReg.setText("total");
 
+        jbLimparPesquisa.setBackground(new java.awt.Color(51, 51, 51));
+        jbLimparPesquisa.setText("Limpar Pesquisa");
+        jbLimparPesquisa.setToolTipText("");
+        jbLimparPesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimparPesquisaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(396, 396, 396)
+                .addContainerGap()
+                .addComponent(jbLimparPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(231, 231, 231)
                 .addComponent(jbGofirst, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbGoback, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbGonext, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbGolast, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(jLabel12)
                 .addGap(18, 18, 18)
@@ -350,21 +402,13 @@ public class Editar extends javax.swing.JFrame {
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jlTotalReg)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(164, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton11, jbGoback, jbGofirst, jbGonext});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jbGoback, jbGofirst, jbGolast, jbGonext});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbGofirst, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbGoback, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbGonext, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -373,9 +417,18 @@ public class Editar extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(jlTotalReg))
                 .addGap(23, 23, 23))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbGofirst, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbGoback, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbGonext, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbGolast, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbLimparPesquisa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton11, jbGoback, jbGofirst, jbGonext});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbGoback, jbGofirst, jbGolast, jbGonext});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -392,7 +445,7 @@ public class Editar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addComponent(jbEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jbPesquisar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbDuplicar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -410,7 +463,7 @@ public class Editar extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton2, jbDuplicar, jbEditar, jbExcluir, jbNovo, jbSair, jbSalvar});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jbDuplicar, jbEditar, jbExcluir, jbNovo, jbPesquisar, jbSair, jbSalvar});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -428,7 +481,7 @@ public class Editar extends javax.swing.JFrame {
                             .addComponent(jbNovo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jbSalvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jbDuplicar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jbPesquisar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jbEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(32, 32, 32)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -437,7 +490,7 @@ public class Editar extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton2, jbDuplicar, jbEditar, jbExcluir, jbNovo, jbSair, jbSalvar});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbDuplicar, jbEditar, jbExcluir, jbNovo, jbPesquisar, jbSair, jbSalvar});
 
         jPanel1.getAccessibleContext().setAccessibleName("topPanel");
         jPanel1.getAccessibleContext().setAccessibleDescription("topPanel");
@@ -446,13 +499,19 @@ public class Editar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btImageActionPerformed
-        Foto foto = new Foto();
-        foto.setVisible(true);
-        foto.jFileChooser1.getSelectedFile();
+        Foto jffoto = new Foto();
+        try {
+            Image icon = ImageIO.read(getClass().getResource("/br/com/elderxavier/images/icon.png"));
+            jffoto.setIconImage(icon);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        jffoto.setVisible(true);
+        jffoto.jFileChooser1.getSelectedFile();
     }//GEN-LAST:event_btImageActionPerformed
 
     private void txtCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCompraKeyPressed
-        String rep = this.txtCompra.getText();
+        String rep = txtCompra.getText();
         int key = evt.getKeyCode();
         char c = (char) evt.getKeyCode();
         rep = c + rep;
@@ -472,20 +531,61 @@ public class Editar extends javax.swing.JFrame {
         this.txtCompra.setText(rep);
     }//GEN-LAST:event_txtCompraKeyPressed
 
-    private void jbGofirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGofirstActionPerformed
-    }//GEN-LAST:event_jbGofirstActionPerformed
-
     private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
-        this.EnableEntites();
+        this.EnableEntities();
     }//GEN-LAST:event_jbEditarActionPerformed
 
     private void jbNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNovoActionPerformed
-        this.EnableEntites();
+        this.NewEntity();
     }//GEN-LAST:event_jbNovoActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        this.SaveEntites();
+        this.SaveEntities();
     }//GEN-LAST:event_jbSalvarActionPerformed
+
+    private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
+        this.DeleteEntities();
+    }//GEN-LAST:event_jbExcluirActionPerformed
+
+    private void jbDuplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDuplicarActionPerformed
+        this.DuplicateEntities();
+    }//GEN-LAST:event_jbDuplicarActionPerformed
+
+    private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jbSairActionPerformed
+
+    private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
+        this.SearchEntities();
+    }//GEN-LAST:event_jbPesquisarActionPerformed
+
+    private void jbLimparPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparPesquisaActionPerformed
+        this.clearSearch();
+    }//GEN-LAST:event_jbLimparPesquisaActionPerformed
+
+    private void jbGolastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGolastActionPerformed
+        registro = totalRegistro - 1;
+        setEntities(listaPatrimonio.get(registro));
+        txtRegistro.setText(String.valueOf(registro + 1));
+    }//GEN-LAST:event_jbGolastActionPerformed
+
+    private void jbGonextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGonextActionPerformed
+        registro = registro < listaPatrimonio.size() - 1 ? registro = registro + 1 : 0;
+        setEntities(listaPatrimonio.get(registro));
+        txtRegistro.setText(String.valueOf(registro + 1));
+    }//GEN-LAST:event_jbGonextActionPerformed
+
+    private void jbGobackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGobackActionPerformed
+        registro = registro >= 1 ? registro = registro - 1 : listaPatrimonio.size() - 1;
+        setEntities(listaPatrimonio.get(registro));
+        txtRegistro.setText(String.valueOf(registro + 1));
+    }//GEN-LAST:event_jbGobackActionPerformed
+
+    private void jbGofirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGofirstActionPerformed
+        this.registro = 0;
+        this.setEntities(this.listaPatrimonio.get(this.registro));
+        txtRegistro.setText(String.valueOf(this.registro + 1));
+    }//GEN-LAST:event_jbGofirstActionPerformed
 
     /**
      * @param args the command line arguments
@@ -530,7 +630,7 @@ public class Editar extends javax.swing.JFrame {
                 Dimension dDesktop = new Dimension(javax.swing.JFrame.MAXIMIZED_BOTH, javax.swing.JFrame.MAXIMIZED_HORIZ);
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                 editar.setLocation((int) (screenSize.getWidth() - editar.getHeight()) / 3, 0);
-                editar.setName("Editar");
+                editar.setTitle("Controle de Patrimonio");
                 try {
                     Image icon = ImageIO.read(getClass().getResource("/br/com/elderxavier/images/icon.png"));
                     editar.setIconImage(icon);
@@ -546,8 +646,6 @@ public class Editar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btImage;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -569,34 +667,50 @@ public class Editar extends javax.swing.JFrame {
     private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbGoback;
     private javax.swing.JButton jbGofirst;
+    private javax.swing.JButton jbGolast;
     private javax.swing.JButton jbGonext;
+    public static javax.swing.JButton jbLimparPesquisa;
     private javax.swing.JButton jbNovo;
+    private javax.swing.JButton jbPesquisar;
     private javax.swing.JButton jbSair;
     private javax.swing.JButton jbSalvar;
     public static javax.swing.JLabel jlFoto;
-    private javax.swing.JLabel jlTotalReg;
-    private javax.swing.JComboBox<String> sbEstado;
-    private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtComposicao;
-    private javax.swing.JFormattedTextField txtCompra;
-    private javax.swing.JFormattedTextField txtData;
-    private javax.swing.JTextField txtDescricao;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtLocalizacao;
-    private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtRegistro;
+    public static javax.swing.JLabel jlTotalReg;
+    public static javax.swing.JComboBox<String> sbEstado;
+    public static javax.swing.JTextField txtCodigo;
+    public static javax.swing.JTextField txtComposicao;
+    public static javax.swing.JFormattedTextField txtCompra;
+    public static javax.swing.JFormattedTextField txtData;
+    public static javax.swing.JTextField txtDescricao;
+    public static javax.swing.JTextField txtId;
+    public static javax.swing.JTextField txtLocalizacao;
+    public static javax.swing.JTextField txtNome;
+    public static javax.swing.JTextField txtRegistro;
     // End of variables declaration//GEN-END:variables
 
     public void initForm() {
-        DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             MaskFormatter dateMask = new MaskFormatter("##/##/####");
             dateMask.install(txtData);
-            this.DisableEntites();
-            this.txtCompra.setText("0,00");
+            this.DisableEntities();
+            txtCompra.setText("0,00");
             DaoPatrimonio dao = new DaoPatrimonio();
-            this.listaPatrimonio = dao.getListar();
-            
+            if (dao.getListar().size() > 0) {
+                listaPatrimonio = dao.getListar();
+                setEntities(listaPatrimonio.get(0));
+                registro = 0;
+                totalRegistro = listaPatrimonio.size();
+                txtRegistro.setText(String.valueOf(registro + 1));
+                jlTotalReg.setText(String.valueOf(totalRegistro));
+            } else {
+                registro = 0;
+                totalRegistro = 0;
+                jlTotalReg.setText(String.valueOf(totalRegistro));
+
+            }
+            jbLimparPesquisa.setVisible(false);
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro: " + ex.toString());
             ex.printStackTrace();
@@ -604,75 +718,83 @@ public class Editar extends javax.swing.JFrame {
 
     }
 
-    public void DisableEntites() {
-        this.txtId.setEditable(false);
-        this.txtCodigo.setEditable(false);
-        this.txtCodigo.setEnabled(false);
-        this.txtComposicao.setEditable(false);
-        this.txtComposicao.setEnabled(false);
-        this.txtCompra.setEditable(false);
-        this.txtCompra.setEnabled(false);
-        this.txtData.setEditable(false);
-        this.txtData.setEnabled(false);
-        this.txtDescricao.setEditable(false);
-        this.txtDescricao.setEnabled(false);
-        this.txtLocalizacao.setEditable(false);
-        this.txtLocalizacao.setEnabled(false);
-        this.txtNome.setEditable(false);
-        this.txtNome.setEnabled(false);
-        this.sbEstado.setEnabled(false);
-        this.sbEstado.setEnabled(false);
-        this.btImage.setEnabled(false);
+    public void DisableEntities() {
+        txtId.setEditable(false);
+        txtCodigo.setEditable(false);
+        txtCodigo.setEnabled(false);
+        txtComposicao.setEditable(false);
+        txtComposicao.setEnabled(false);
+        txtCompra.setEditable(false);
+        txtCompra.setEnabled(false);
+        txtData.setEditable(false);
+        txtData.setEnabled(false);
+        txtDescricao.setEditable(false);
+        txtDescricao.setEnabled(false);
+        txtLocalizacao.setEditable(false);
+        txtLocalizacao.setEnabled(false);
+        txtNome.setEditable(false);
+        txtNome.setEnabled(false);
+        sbEstado.setEnabled(false);
+        sbEstado.setEnabled(false);
+        btImage.setEnabled(false);
     }
 
-    public void EnableEntites() {
-        this.txtCodigo.setEditable(true);
-        this.txtCodigo.setEnabled(true);
-        this.txtComposicao.setEditable(true);
-        this.txtComposicao.setEnabled(true);
-        this.txtCompra.setEditable(true);
-        this.txtCompra.setEnabled(true);
-        this.txtData.setEditable(true);
-        this.txtData.setEnabled(true);
-        this.txtDescricao.setEditable(true);
-        this.txtDescricao.setEnabled(true);
-        this.txtLocalizacao.setEditable(true);
-        this.txtLocalizacao.setEnabled(true);
-        this.txtNome.setEditable(true);
-        this.txtNome.setEnabled(true);
-        this.sbEstado.setEnabled(true);
-        this.sbEstado.setEnabled(true);
-        this.btImage.setEnabled(true);
+    public void EnableEntities() {
+        txtCodigo.setEditable(true);
+        txtCodigo.setEnabled(true);
+        txtComposicao.setEditable(true);
+        txtComposicao.setEnabled(true);
+        txtCompra.setEditable(true);
+        txtCompra.setEnabled(true);
+        txtData.setEditable(true);
+        txtData.setEnabled(true);
+        txtDescricao.setEditable(true);
+        txtDescricao.setEnabled(true);
+        txtLocalizacao.setEditable(true);
+        txtLocalizacao.setEnabled(true);
+        txtNome.setEditable(true);
+        txtNome.setEnabled(true);
+        sbEstado.setEnabled(true);
+        sbEstado.setEnabled(true);
+        btImage.setEnabled(true);
     }
 
-    public void NewEntites() {
-        this.EnableEntites();
-        this.txtId.setText("");
-        this.txtCodigo.setText("");
-        this.txtComposicao.setText("");
-        this.txtCompra.setText("");
-        this.txtData.setText("");
-        this.txtDescricao.setText("");
-        this.txtLocalizacao.setText("");
-        this.txtNome.setText("");
-        this.jlFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/no-image.png")));
+    public void NewEntity() {
+        jlFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/elderxavier/images/no-image.png")));
+        jlFoto.setPreferredSize(new Dimension(350, 350));
+        EnableEntities();
+        txtId.setText("");
+        txtCodigo.setText("");
+        txtComposicao.setText("");
+        txtCompra.setText("");
+        txtData.setText("");
+        txtDescricao.setText("");
+        txtLocalizacao.setText("");
+        txtNome.setText("");
+
     }
 
-    public void SaveEntites() {
+    public void SaveEntities() {
         try {
-            ControlePatrimonio patrimonio = this.getEntites();
+            ControlePatrimonio patrimonio = this.getEntities();
             DaoPatrimonio dao = new DaoPatrimonio();
             long resp = 0;
             if (patrimonio.getId() > 0) {
                 resp = dao.Atualizar(patrimonio, String.valueOf(patrimonio.getId()));
                 if (resp > 0) {
-                    this.DisableEntites();
+                    DisableEntities();
+                    listaPatrimonio = dao.getListar();
                 }
             } else {
                 resp = dao.Inserir(patrimonio);
                 if (resp > 0) {
-                    this.txtId.setText(String.valueOf(resp));
-                    this.DisableEntites();
+                    txtId.setText(String.valueOf(resp));
+                    DisableEntities();
+                    listaPatrimonio = dao.getListar();
+                    totalRegistro++;
+                    jlTotalReg.setText(String.valueOf(totalRegistro));
+                    registro = totalRegistro;
+                    txtRegistro.setText(String.valueOf(registro));
                 }
             }
 
@@ -682,18 +804,48 @@ public class Editar extends javax.swing.JFrame {
         }
     }
 
-    public ControlePatrimonio getEntites() {
-        int id = Helper.IsNumeric(this.txtId.getText()) ? Integer.parseInt(this.txtId.getText()) : 0;
-        String codigo = !this.txtCodigo.getText().equals("") ? this.txtCodigo.getText() : "";
-        String composicao = !this.txtComposicao.getText().equals("") ? this.txtComposicao.getText() : "";
-        String parseValor = this.txtCompra.getText().replaceAll(",", ".");
+    public void DeleteEntities() {
+        int op = JOptionPane.showConfirmDialog(null, "Excluir Registro ?", "Cancelar", JOptionPane.YES_NO_OPTION);
+        if (op == JOptionPane.YES_OPTION) {
+            DaoPatrimonio dao = new DaoPatrimonio();
+            dao.Excluir(txtId.getText());
+            this.DisableEntities();
+            listaPatrimonio = dao.getListar();
+            totalRegistro--;
+            jlTotalReg.setText(String.valueOf(totalRegistro));
+            registro = registro - 1;
+            txtRegistro.setText(String.valueOf(registro + 1));
+            setEntities(listaPatrimonio.get(registro));
+            JOptionPane.showMessageDialog(null, "Registro Excluido com sucesso");
+        }
+    }
+
+    public void DuplicateEntities() {
+        setEntities(listaPatrimonio.get(registro));
+        this.txtId.setText("");
+        EnableEntities();
+    }
+
+    public void SearchEntities() {
+        Pesquisar jpesquisar = new Pesquisar();
+        jpesquisar.setVisible(true);
+    }
+
+    /*
+    
+    
+     */
+    public ControlePatrimonio getEntities() {
+        int id = Helper.IsNumeric(txtId.getText()) ? Integer.parseInt(txtId.getText()) : 0;
+        String codigo = !txtCodigo.getText().equals("") ? txtCodigo.getText() : "";
+        String composicao = !txtComposicao.getText().equals("") ? txtComposicao.getText() : "";
+        String parseValor = txtCompra.getText().replaceAll(",", ".");
         double compra = Helper.IsNumeric(parseValor) ? Double.parseDouble(parseValor) : 0;
-        String data = !this.txtData.getText().equals("") ? this.txtData.getText() : "";
-        String descricao = !this.txtDescricao.getText().equals("") ? this.txtDescricao.getText() : "";
-        String localizacao = !this.txtLocalizacao.getText().equals("") ? this.txtLocalizacao.getText() : "";
-        String nome = !this.txtNome.getText().equals("") ? this.txtNome.getText() : "";
+        String data = !txtData.getText().equals("") ? txtData.getText() : "";
+        String descricao = !txtDescricao.getText().equals("") ? txtDescricao.getText() : "";
+        String localizacao = !txtLocalizacao.getText().equals("") ? txtLocalizacao.getText() : "";
+        String nome = !txtNome.getText().equals("") ? txtNome.getText() : "";
         String foto = jlFoto.getIcon().toString();
-        //foto = !foto.split(":")[1].equals("") ? foto.split(":")[1] : foto;
         ControlePatrimonio patrimonio = new ControlePatrimonio();
         patrimonio.setId(id);
         patrimonio.setCodigo(codigo);
@@ -707,25 +859,41 @@ public class Editar extends javax.swing.JFrame {
         patrimonio.setEstado(sbEstado.getSelectedItem().toString());
         return patrimonio;
     }
-    
-    public void DeleteEntite(){
-        DaoPatrimonio dao = new DaoPatrimonio();       
+
+    public static void setEntities(ControlePatrimonio patrimonio) {
+        txtId.setText(String.valueOf(patrimonio.getId()));
+        txtCodigo.setText(patrimonio.getCodigo());
+        txtComposicao.setText(patrimonio.getComposicao());
+        txtData.setText(patrimonio.getData());
+        txtDescricao.setText(patrimonio.getDescricao());
+        sbEstado.setSelectedItem(patrimonio.getEstado());
+        txtLocalizacao.setText(patrimonio.getLocalizacao());
+        txtNome.setText(patrimonio.getNome());
+        txtCompra.setText(Helper.getDecimalString(patrimonio.getValor()));
+        try {
+            String pfoto;
+            if (patrimonio.getFoto().equals("") || patrimonio.getFoto().equals("null") || patrimonio.getFoto().isEmpty()) {
+                foto = "/br/com/elderxavier/images/no-image.png";
+            } else {
+                File f = new File(patrimonio.getFoto());
+                foto = f.exists() && !f.isDirectory() ? patrimonio.getFoto() : foto;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        jlFoto.setIcon(new javax.swing.ImageIcon(foto));
+        jlFoto.setPreferredSize(new Dimension(350, 350));
+        jlFoto.setMaximumSize(new Dimension(350, 350));
     }
-    
-    public void setEntites(ControlePatrimonio patrimonio){
-        
-        patrimonio.setId( Integer.parseInt( this.txtId.getText()) );
-        patrimonio.setCodigo(this.txtCodigo.getText());
-        patrimonio.setComposicao(this.txtComposicao.getText());
-        patrimonio.setData(this.txtData.getText());
-        patrimonio.setDescricao(this.txtDescricao.getText());
-        
-        /*patrimonio.setFoto();
-        //sbEstado.;
-        
-        patrimonio.setLocalizacao();
-        patrimonio.setNome();
-        patrimonio.setValor(); */
+
+    public void clearSearch() {        
+        DaoPatrimonio dao = new DaoPatrimonio();
+        listaPatrimonio = dao.getListar();        
+        totalRegistro = listaPatrimonio.size();
+        jlTotalReg.setText(String.valueOf(totalRegistro));
+        registro = 0;
+        setEntities(listaPatrimonio.get(registro));
+        txtRegistro.setText(String.valueOf(registro + 1));
     }
 
 }

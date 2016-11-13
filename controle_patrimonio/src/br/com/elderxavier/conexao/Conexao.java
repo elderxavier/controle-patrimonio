@@ -13,15 +13,20 @@ public class Conexao {
     Connection conexao;
 
     public Connection getConexao() {
-        String user = "root";
+        /*String user = "root";
         String password = "";
         String local = "localhost";
-        String database = "controle_patrimonio";
-
+        String database = "controle_patrimonio";*/
+        
+        //Blue Mix
+        String user = "b20cd57c18a7ad";
+        String password = "35f40b38";
+        String local = "us-cdbr-iron-east-04.cleardb.net";
+        String database = "ad_97cbd6d6c847956";
+        
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            this.conexao = DriverManager.getConnection("jdbc:mysql://" + local + "/" + database + "?" + "user=" + user + "&password=" + password);
-            System.out.println("Conectado");
+            this.conexao = DriverManager.getConnection("jdbc:mysql://" + local + "/" + database + "?" + "user=" + user + "&password=" + password);            
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -36,56 +36,6 @@ public class Main {
         /*Editar editar = new Editar();
         editar.setContentPane(new MyPanel());
         editar.setVisible(true); */
-
-        //Connection con = new Conexao().getConexao();
-        /*Timestamp ts = new Timestamp( System.currentTimeMillis() );
-        System.err.println( ts.getTime() );
-        ControlePatrimonio controle = new ControlePatrimonio();
-        
-        controle.setCodigo("asdsdfdsfs3");
-        controle.setComposicao("Composicao");
-        controle.setData("100/11/2016");
-        controle.setDescricao("descricao");
-        controle.setEstado("Estado");
-        controle.setFoto("foto");
-        controle.setLocalizacao("localizacao");
-        controle.setNome("nome");
-        controle.setValor(3.00);
-        
-        DaoPatrimonio dao = new  DaoPatrimonio();
-        
-        //dao.Inserir(controle);
-        
-        
-        //dao.Atualizar(controle, "1");
-        */
-        
-        //new Conexao().TestaConexao();
-        /*List<ControlePatrimonio> minhalista = dao.getListar();
-        for( ControlePatrimonio p : minhalista){
-            System.out.println(p.getNome());
-        }*/
-        /*try {
-            DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
-
-            String sdate = "09/08/1980";    // take a string  date
-            Date date;
-
-            date =  df.parse(sdate);
-            //Timestamp ts = new Timestamp(date.getTime()); // convert gettime from date and assign it to your timestamp.
-
-            System.out.println( df.format(date) );
-        } catch (ParseException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        //System.err.println( Helper.IsNumeric("10"));
-        //System.err.println( Helper.IsNumeric("a"));
-        */
-        
-        /*String t = "100,00";
-        Double d = Double.parseDouble(t.replaceAll(",", ".") );
-        System.err.println(d); */
     }
 
 }

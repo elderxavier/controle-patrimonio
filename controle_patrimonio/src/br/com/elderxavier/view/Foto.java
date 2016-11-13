@@ -5,6 +5,9 @@
  */
 package br.com.elderxavier.view;
 
+import java.awt.Image;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -32,6 +35,10 @@ public class Foto extends javax.swing.JFrame {
         jFileChooser1 = new javax.swing.JFileChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Selecionar Imagem");
+        setAlwaysOnTop(true);
+        setFocusable(false);
+        setFocusableWindowState(false);
 
         jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +107,14 @@ public class Foto extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Foto().setVisible(true);
+                Foto foto = new Foto();                
+                try {
+                    Image icon = ImageIO.read(getClass().getResource("/br/com/elderxavier/images/icon.png"));
+                    foto.setIconImage(icon);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                foto.setVisible(true);
             }
         });
     }
